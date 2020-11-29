@@ -23,4 +23,5 @@ To run the app, run in the terminal:
 ## Contributors  
 
 [Daniel Dennis](https://github.com/katungi)
+
 [Sandra Makena](https://github.com/makenasandra/)
