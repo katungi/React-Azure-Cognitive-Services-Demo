@@ -1,0 +1,87 @@
+{
+    "documents": [
+        {
+            "id": "1",
+            "sentiment": "positive",
+            "confidenceScores": {
+                "positive": 1.0,
+                "neutral": 0.0,
+                "negative": 0.0
+            },
+            "sentences": [
+                {
+                    "sentiment": "positive",
+                    "confidenceScores": {
+                        "positive": 1.0,
+                        "neutral": 0.0,
+                        "negative": 0.0
+                    },
+                    "offset": 0,
+                    "length": 58,
+                    "text": "The restaurant had great food and our waiter was friendly.",
+                    "aspects": [
+                        {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                                "positive": 1.0,
+                                "negative": 0.0
+                            },
+                            "offset": 25,
+                            "length": 4,
+                            "text": "food",
+                            "relations": [
+                                {
+                                    "relationType": "opinion",
+                                    "ref": "#/documents/0/sentences/0/opinions/0"
+                                }
+                            ]
+                        },
+                        {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                                "positive": 1.0,
+                                "negative": 0.0
+                            },
+                            "offset": 38,
+                            "length": 6,
+                            "text": "waiter",
+                            "relations": [
+                                {
+                                    "relationType": "opinion",
+                                    "ref": "#/documents/0/sentences/0/opinions/1"
+                                }
+                            ]
+                        }
+                    ],
+                    "opinions": [
+                        {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                                "positive": 1.0,
+                                "negative": 0.0
+                            },
+                            "offset": 19,
+                            "length": 5,
+                            "text": "great",
+                            "isNegated": false
+                        },
+                        {
+                            "sentiment": "positive",
+                            "confidenceScores": {
+                                "positive": 1.0,
+                                "negative": 0.0
+                            },
+                            "offset": 49,
+                            "length": 8,
+                            "text": "friendly",
+                            "isNegated": false
+                        }
+                    ]
+                }
+            ],
+            "warnings": []
+        }
+    ],
+    "errors": [],
+    "modelVersion": "2020-04-01"
+}
