@@ -64,7 +64,7 @@ function App() {
         onChange={onChangeHandler}
         value={text}
         max="4"
-      />
+      />  
       <br />
       <br />
       <select
