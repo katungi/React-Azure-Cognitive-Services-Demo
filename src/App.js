@@ -3,35 +3,34 @@ import "./App.css";
 import axios from "axios";
 import Textfield from "@atlaskit/textfield";
 
-
 function App() {
   const [text, setText] = useState("");
   const [sentiment, setSentiment] = useState("");
   const [mode, setMode] = useState("");
   const [language, setLanguage] = useState("");
 
+   
   const onChangeHandler = (event) => {
     setText(event.target.value);
   };
-  const onOptionSelect = (event)=> {
+  const onOptionSelect = (event) => {
     setMode(event.target.value);
-  }
-    const options = [
-      {
-        label: "Languages",
-        value: "languages",
-      },
-      {
-        label: "Sentiment",
-        value: "sentiment",
-      }
-    ];
+  };
+  const options = [
+    {
+      label: "Languages",
+      value: "languages",
+    },
+    {
+      label: "Sentiment",
+      value: "sentiment",
+    },
+  ];
 
   useEffect(() => {
     axios({
       method: "post",
-      url:
-        `https://skeshy.cognitiveservices.azure.com/text/analytics/v3.0/${mode}`,
+      url: `https://skeshy.cognitiveservices.azure.com/text/analytics/v3.0/${mode}`,
       data: {
         documents: [
           {
@@ -44,7 +43,7 @@ function App() {
       headers: {
         "Ocp-Apim-Subscription-Key": "a9ac1ff619c94b028020e87ef413708e",
         "Content-Type": "application/json",
-        "Accept": "application/json",
+        Accept: "application/json",
       },
     })
       .then((res) => {
@@ -54,7 +53,7 @@ function App() {
         setLanguage(res.data.documents[0].detectedLanguage.name);
       })
       .catch((err) => console.log(err));
-  }, [text,mode]);
+  }, [text, mode]);
 
   return (
     <div className="App">
@@ -68,15 +67,22 @@ function App() {
       />
       <br />
       <br />
-      <select value={mode} onChange={onOptionSelect}>
-            {options.map((option) => (
-              <option value={option.value}>{option.label}</option>
-            ))}
-          </select>
+      <select
+        value={mode}
+        onChange={onOptionSelect}
+        className="single-select"
+        classNamePrefix="react-select"
+        placeholder="Choose an Analysis Mode"
+        options= {options}
+      >
+        {options.map((option) => (
+          <option value={option.value}>{option.label}</option>
+        ))}
+      </select>
       <br />
       <br />
-      <p>{(sentiment !== undefined) ? sentiment : ""}</p>
-      <p>{(language !== undefined) ? language : ""}</p>
+      <p>{sentiment !== undefined ? sentiment : ""}</p>
+      <p>{language !== undefined ? language : ""}</p>
     </div>
   );
 }
