@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import axios from "axios";
-import Textfield from "@atlaskit/textfield";
-import Button from "@atlaskit/button";
 
 function App() {
   const [text, setText] = useState("");
@@ -42,19 +40,19 @@ function App() {
 
   return (
     <div className="App">
-      <h1>CodeLess Intelligence Demo</h1>
-      <Textfield
-        type="text"
-        name="input1"
+      <h1 id="heading">CodeLess Intelligence Demo</h1>
+      <br/>
+      <h2>User Input</h2>
+      <input
+        className="input"
+        type='text'
         onChange={onChangeHandler}
-        value={text}
-        max="4"
       />
       <br />
       <br />
-      <Button>Submit</Button>
-      <br />
-      <br />
+
+      <h2>Processed Output</h2>
+
       <p>{sentiment !== undefined ? sentiment : "waiting..."}</p>
     </div>
   );
