@@ -29,7 +29,7 @@ function App() {
   useEffect(() => {
     axios({
       method: "post",
-      url: `https://skeshy.cognitiveservices.azure.com/text/analytics/v3.0/${mode}`,
+      url: `https://codeless.cognitiveservices.azure.com/${mode}`,
       data: {
         documents: [
           {
@@ -40,7 +40,7 @@ function App() {
         ],
       },
       headers: {
-        "Ocp-Apim-Subscription-Key": "a9ac1ff619c94b028020e87ef413708e",
+        "Ocp-Apim-Subscription-Key": "da2c66f59a9e4e61a4aed4c22fabdc93",
         "Content-Type": "application/json",
         Accept: "application/json",
       },
