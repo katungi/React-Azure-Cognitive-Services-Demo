@@ -29,7 +29,7 @@ function App() {
   useEffect(() => {
     axios({
       method: "post",
-      url: `https://codeless.cognitiveservices.azure.com/${mode}`,
+      url: `https://codeless.cognitiveservices.azure.com/text/analytics/v3.0/${mode}`,
       data: {
         documents: [
           {
