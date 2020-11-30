@@ -1,5 +1,17 @@
+body {
+  background-color: grey;
+}
 .App {
   text-align: center;
+}
+
+#heading {
+  color: purple;
+}
+
+button {
+  border-color: plum;
+  background-color: plum;
 }
 
 .App-logo {
@@ -37,6 +49,9 @@
   }
 }
 
-.input{
-  margin-top: 50px;
+input {
+  margin: auto;
+  display: block;
+  background-color: plum;
+  border-color: plum;
 }

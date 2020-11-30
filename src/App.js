@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./App.css";
 import axios from "axios";
-import Textfield from "@atlaskit/textfield";
 
 function App() {
   const [text, setText] = useState("");
@@ -18,11 +17,11 @@ function App() {
   };
   const options = [
     {
-      label: "Languages",
+      label: "Language Detection",
       value: "languages",
     },
     {
-      label: "Sentiment",
+      label: "Sentiment Analysis",
       value: "sentiment",
     },
   ];
@@ -57,10 +56,12 @@ function App() {
 
   return (
     <div className="App">
-      <h1>CodeLess Intelligence Demo</h1>
-      <Textfield
-        type="text"
-        name="input1"
+      <h1 id="heading">CodeLess Intelligence Demo</h1>
+      <br/>
+      <h2>User Input</h2>
+      <input
+        className="input"
+        type='text'
         onChange={onChangeHandler}
         value={text}
         max="4"
@@ -81,6 +82,8 @@ function App() {
       </select>
       <br />
       <br />
+
+      <h2>Processed Output</h2>
       <p>{sentiment !== undefined ? sentiment : ""}</p>
       <p>{language !== undefined ? language : ""}</p>
     </div>
