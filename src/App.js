@@ -5,7 +5,7 @@ import axios from "axios";
 function App() {
   const [text, setText] = useState("");
   const [sentiment, setSentiment] = useState("");
-  const [mode, setMode] = useState("");
+  const [mode, setMode] = useState("languages");
   const [language, setLanguage] = useState("");
 
    
@@ -25,7 +25,7 @@ function App() {
       value: "sentiment",
     },
   ];
-
+ 
   useEffect(() => {
     axios({
       method: "post",
