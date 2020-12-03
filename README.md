@@ -2,7 +2,9 @@
 
 This is a demo project for Microsoft Learners Students Conference.
 
-## Setup
+The live project can be found [here](https://react-azure-cognitive-services-demo.vercel.app/)
+
+## Setup 
 
 Create a new resource on the [azure portal](portal.azure.com)
 
