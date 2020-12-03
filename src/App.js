@@ -3,12 +3,14 @@ import "./App.css";
 import axios from "axios";
 import { debounce } from "lodash";
 
+// These are the headers required for the network requests -> the API Key is stored in the Ocp-Apim-Subscription-Key header
 const headers = {
   "Ocp-Apim-Subscription-Key": `${process.env.REACT_APP_KEY}`,
   "Content-Type": "application/json",
   Accept: "application/json",
 };
 
+// Network request to get languages analysis 💸
 const requestLang = async (text) => {
   const { data } = await axios({
     method: "post",
@@ -28,6 +30,7 @@ const requestLang = async (text) => {
   return data;
 };
 
+// Network request to make sentiment analysis
 const requestSentiment = async (text) => {
   const { data } = await axios({
     method: "post",
@@ -46,10 +49,15 @@ const requestSentiment = async (text) => {
 
   return data;
 };
+
 function App() {
   const [text, setText] = useState("");
   const [mode, setMode] = useState("languages");
+
+  // state variable to store language result
   const [langDoc, setLangDoc] = useState({});
+
+  // state variable to store sentiment result
   const [sentimentDoc, setSentimentDoc] = useState({});
 
   const onChangeHandler = (event) => {
@@ -70,18 +78,17 @@ function App() {
   ];
 
   useEffect(() => {
-    console.log(process.env.REACT_APP_KEY);
+    // Limit the request made to when a user stops typing.
     const debouncedSave = debounce(() => makeRequest(), 1500);
     debouncedSave();
 
+    // Checks the mode and makes the appropriate request -> whether it's sentiment or language analysis
     const makeRequest = () => {
       if (mode === "languages") {
         setSentimentDoc({});
         requestLang(text)
           .then((res) => setLangDoc(res.documents[0]))
           .catch(console.log);
-
-        console.log(langDoc);
       }
 
       if (mode === "sentiment") {
@@ -89,7 +96,6 @@ function App() {
         requestSentiment(text)
           .then((res) => setSentimentDoc(res.documents[0]))
           .catch(console.log);
-        console.log(sentimentDoc);
       }
     };
   }, [text, mode]);
