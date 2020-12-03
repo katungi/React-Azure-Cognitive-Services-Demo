@@ -3,7 +3,7 @@ import "./App.css";
 import axios from "axios";
 import { debounce } from "lodash";
 
-// These are the headers required for the network requests -> the API Key is stored in the Ocp-Apim-Subscription-Key header
+// These are the headers required for the network requests --> the API Key is stored in the Ocp-Apim-Subscription-Key header
 const headers = {
   "Ocp-Apim-Subscription-Key": `${process.env.REACT_APP_KEY}`,
   "Content-Type": "application/json",
@@ -26,7 +26,6 @@ const requestLang = async (text) => {
     },
     headers,
   });
-
   return data;
 };
 
@@ -46,7 +45,6 @@ const requestSentiment = async (text) => {
     },
     headers,
   });
-
   return data;
 };
 
@@ -82,7 +80,7 @@ function App() {
     const debouncedSave = debounce(() => makeRequest(), 1500);
     debouncedSave();
 
-    // Checks the mode and makes the appropriate request -> whether it's sentiment or language analysis
+    // Checks the mode and makes the appropriate request --> whether it's sentiment or language analysis
     const makeRequest = () => {
       if (mode === "languages") {
         setSentimentDoc({});
