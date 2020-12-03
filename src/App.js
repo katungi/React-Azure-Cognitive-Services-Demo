@@ -3,14 +3,54 @@ import "./App.css";
 import axios from "axios";
 import { debounce } from "lodash";
 
+const headers = {
+  "Ocp-Apim-Subscription-Key": `${process.env.REACT_APP_KEY}`,
+  "Content-Type": "application/json",
+  Accept: "application/json",
+};
+
+const requestLang = async (text) => {
+  const { data } = await axios({
+    method: "post",
+    url: `https://codeless.cognitiveservices.azure.com/text/analytics/v3.0/languages`,
+    data: {
+      documents: [
+        {
+          language: "en",
+          id: "1",
+          text: text,
+        },
+      ],
+    },
+    headers,
+  });
+
+  return data;
+};
+
+const requestSentiment = async (text) => {
+  const { data } = await axios({
+    method: "post",
+    url: `https://codeless.cognitiveservices.azure.com/text/analytics/v3.0/sentiment`,
+    data: {
+      documents: [
+        {
+          language: "en",
+          id: "1",
+          text: text,
+        },
+      ],
+    },
+    headers,
+  });
+
+  return data;
+};
 function App() {
   const [text, setText] = useState("");
-  const [sentiment, setSentiment] = useState("");
   const [mode, setMode] = useState("languages");
-  const [language, setLanguage] = useState("");
-  const [languageConfidence, setConfidence] = useState("");
-
-  const [document, setDocuments] = useState({});
+  const [langDoc, setLangDoc] = useState({});
+  const [sentimentDoc, setSentimentDoc] = useState({});
 
   const onChangeHandler = (event) => {
     setText(event.target.value);
@@ -30,38 +70,27 @@ function App() {
   ];
 
   useEffect(() => {
-    const debouncedSave = debounce(() => makeRequest(), 1000);
+    console.log(process.env.REACT_APP_KEY);
+    const debouncedSave = debounce(() => makeRequest(), 1500);
     debouncedSave();
 
     const makeRequest = () => {
-      axios({
-        method: "post",
-        url: `https://codeless.cognitiveservices.azure.com/text/analytics/v3.0/${mode}`,
-        data: {
-          documents: [
-            {
-              language: "en",
-              id: "1",
-              text: text,
-            },
-          ],
-        },
-        headers: {
-          "Ocp-Apim-Subscription-Key": `${process.env.REACT_APP_KEY}`,
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      })  
-        .then(({ data }) => {
-          setDocuments(data.documents[0]);
-          console.log(document.confidenceScores.positive);
+      if (mode === "languages") {
+        setSentimentDoc({});
+        requestLang(text)
+          .then((res) => setLangDoc(res.documents[0]))
+          .catch(console.log);
 
-          setSentiment(data.documents[0].sentiment);
-          setLanguage(data.documents[0].detectedLanguage.name);
-          setConfidence(data.documents[0].detectedLanguage.confidenceScore);
-        console.log(document);
-        })
-        .catch((err) => console.log(err));
+        console.log(langDoc);
+      }
+
+      if (mode === "sentiment") {
+        setLangDoc({});
+        requestSentiment(text)
+          .then((res) => setSentimentDoc(res.documents[0]))
+          .catch(console.log);
+        console.log(sentimentDoc);
+      }
     };
   }, [text, mode]);
 
@@ -91,38 +120,31 @@ function App() {
           <option value={option.value}>{option.label}</option>
         ))}
       </select>
-      <br />
-      <br />
 
       <h2>Processed Output</h2>
-      <p>{sentiment !== undefined ? `Sentiment: ${sentiment}` : ""}</p>
-      <p>{language !== undefined || null ? `Language: ${language}` : ""}</p>
-      <br />
-      <br />
-      <label>Sentiment Confidence Scores</label>
-      <p>
-        {document !== undefined
-          ? `Positive Score: `
-          : ""}
-      </p>
-      <p>
-        {document !== undefined
-          ? `Neutral Score: `
-          : ""}
-      </p>
-      <p>
-        {document !== undefined
-          ? `Negative Score: `
-          : ""}
-      </p>
-
-      <label>Language Confidence Scores</label>
-
-      <p>
-        {language !== undefined
-          ? `Confidence Score: ${languageConfidence}`
-          : ""}
-      </p>
+      {mode === "languages" ? (
+        <>
+          {langDoc && langDoc !== undefined ? (
+            <>
+              <p>Language: {langDoc?.detectedLanguage?.name}</p>
+              <p>Confidence Score: {langDoc?.detectedLanguage?.confidenceScore}</p>
+            </>
+          ) : null}
+        </>   
+      ) : (
+        <>
+          <label>Sentiment Confidence Scores</label>
+          {sentimentDoc && sentimentDoc !== undefined ? (
+            <>
+              <p>Sentiment: {sentimentDoc.sentiment}</p>
+              <p>Positive Score: {sentimentDoc?.confidenceScores?.positive}</p>
+              <p>Neutral Score: {sentimentDoc?.confidenceScores?.neutral}</p>
+              <p>Negative Score: {sentimentDoc?.confidenceScores?.negative}</p>
+            </>
+          ) : null
+          }
+        </>
+      )}
     </div>
   );
 }
